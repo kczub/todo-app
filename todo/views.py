@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template import context
 from django.urls import reverse
+from django.utils import timezone
 
 from todo.models import Todo
 
@@ -8,12 +10,15 @@ def index(request):
     todos = Todo.objects.all()
     return render(request, 'todo/index.html', {'todos': todos,})
 
+# FORMS FORMS FORMS
 def create(request):
-    if request.method == 'POST':
-        content = request.POST['content']
-        Todo.objects.create(content=content)
-        return HttpResponseRedirect(reverse('todo:index'))
-    return render(request, 'todo/create.html')
+    # if request.method == 'POST':
+    #     title = request.POST.get('title')
+    #     content = request.POST.get('content')
+    context = {}
+        # Todo.objects.create(title=title, content=content)
+        # return HttpResponseRedirect(reverse('todo:index'))
+    return render(request, 'todo/create.html', context=context)
 
 def detail(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
@@ -33,6 +38,4 @@ def delete(request, todo_id):
     if request.method == 'POST':
         todo.delete()
         return HttpResponseRedirect(reverse('todo:index'))
-    # elif request.method == 'GET':
-    #     return render(request, 'todo/detail.html', {'todo': todo})
     return render(request, 'todo/delete.html', {'todo': todo})
