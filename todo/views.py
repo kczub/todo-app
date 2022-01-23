@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from todo.models import Todo
@@ -15,8 +15,24 @@ def create(request):
         return HttpResponseRedirect(reverse('todo:index'))
     return render(request, 'todo/create.html')
 
-def update(request):
-    return render(request, 'todo/update.html')
+def detail(request, todo_id):
+    todo = get_object_or_404(Todo, pk=todo_id)
+    return render(request, 'todo/detail.html', {'todo': todo})
 
-# def delete(request):
-#     return render(request, 'todo/')
+
+def update(request, todo_id):
+    todo = Todo.objects.get(pk=todo_id)
+    if request.method == 'POST':
+        todo.content = request.POST['content']
+        todo.save()
+        return HttpResponseRedirect(reverse('todo:index'))
+    return render(request, 'todo/update.html', {'todo': todo})
+
+def delete(request, todo_id):
+    todo = Todo.objects.get(pk=todo_id)
+    if request.method == 'POST':
+        todo.delete()
+        return HttpResponseRedirect(reverse('todo:index'))
+    # elif request.method == 'GET':
+    #     return render(request, 'todo/detail.html', {'todo': todo})
+    return render(request, 'todo/delete.html', {'todo': todo})

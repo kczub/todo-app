@@ -5,6 +5,8 @@ from . import views
 app_name = 'todo'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('<int:todo_id>/', views.detail, name='detail'),
     path('create/', views.create, name='create'),
-    path('update/', views.update, name='update'),
+    path('<int:todo_id>/update/', views.update, name='update'),
+    path('<int:todo_id>/delete/', views.delete, name='delete'),
 ]
