@@ -9,13 +9,20 @@ def index(request):
     todos = Todo.objects.all()
     return render(request, 'todo/index.html', {'todos': todos,})
 
+# def create(request):
+#     form = TodoForm(request.POST or None)
+#     context = {'form': form}
+#     if form.is_valid():
+#         todo_obj = form.save() # maybe just form.save()
+#         return HttpResponseRedirect(reverse('todo:index'))
+#     return render(request, 'todo/create.html', context=context)
+
 def create(request):
     form = TodoForm(request.POST or None)
-    context = {'form': form}
     if form.is_valid():
-        todo_obj = form.save() # maybe just form.save()
+        form.save()
         return HttpResponseRedirect(reverse('todo:index'))
-    return render(request, 'todo/create.html', context=context)
+    return render(request, 'todo/create.html', context={'form': form})
 
 def detail(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
