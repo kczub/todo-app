@@ -13,11 +13,7 @@ def create(request):
     form = TodoForm(request.POST or None)
     context = {'form': form}
     if form.is_valid():
-        title = form.cleaned_data['title']
-        content = form.cleaned_data['content']
-        todo_obj = Todo.objects.create(title=title, content=content)
-        context['object'] = todo_obj
-        context['created'] = True
+        todo_obj = form.save() # maybe just form.save()
         return HttpResponseRedirect(reverse('todo:index'))
     return render(request, 'todo/create.html', context=context)
 

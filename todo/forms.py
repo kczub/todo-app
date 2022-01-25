@@ -1,15 +1,19 @@
 from django import forms
 
-class TodoForm(forms.Form):
-    title = forms.CharField()
-    content = forms.CharField(widget=forms.Textarea)
+from todo.models import Todo
+
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = ['title', 'content']
 
     def clean(self):
-        cleaned_data = self.cleaned_data
-        title = cleaned_data['title']
-        content = cleaned_data['content']
-        if title.lower().strip() == 'activity':
-            self.add_error('title', "This title is taken") # field error - better for specific fields
+        data = self.cleaned_data
+        title = data.get('title')
+        content = data.get('content')
+        qs = Todo.objects.filter(title__icontains=title)
+        if qs.exists():
+            self.add_error('title', f"\"{title}\" already exists.") # field error - better for specific fields
         if 'dupa' in title.lower() or 'dupa' in content.lower():
-            raise forms.ValidationError('"Dupa" is not allowed') # nonfield error - error for the entire form
-        return cleaned_data
+            raise forms.ValidationError("\"Dupa\" is not allowed") # nonfield error - error for the entire form
+        return data
