@@ -12,13 +12,12 @@ def index(request):
 
 # FORMS FORMS FORMS
 def create(request):
-    # if request.method == 'POST':
-    #     title = request.POST.get('title')
-    #     content = request.POST.get('content')
-    context = {}
-        # Todo.objects.create(title=title, content=content)
-        # return HttpResponseRedirect(reverse('todo:index'))
-    return render(request, 'todo/create.html', context=context)
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        Todo.objects.create(title=title, content=content)
+        return HttpResponseRedirect(reverse('todo:index'))
+    return render(request, 'todo/create.html')
 
 def detail(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
@@ -28,6 +27,7 @@ def detail(request, todo_id):
 def update(request, todo_id):
     todo = Todo.objects.get(pk=todo_id)
     if request.method == 'POST':
+        todo.title = request.POST['title']
         todo.content = request.POST['content']
         todo.save()
         return HttpResponseRedirect(reverse('todo:index'))
