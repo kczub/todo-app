@@ -3,17 +3,18 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from todo.models import Todo
+from todo.forms import TodoForm
 
 def index(request):
     todos = Todo.objects.all()
     return render(request, 'todo/index.html', {'todos': todos,})
 
-# FORMS FORMS FORMS
 def create(request):
-    context = {}
-    if request.method == 'POST':
-        title = request.POST['title']
-        content = request.POST['content']
+    form = TodoForm(request.POST or None)
+    context = {'form': form}
+    if form.is_valid():
+        title = form.cleaned_data['title']
+        content = form.cleaned_data['content']
         todo_obj = Todo.objects.create(title=title, content=content)
         context['object'] = todo_obj
         context['created'] = True
