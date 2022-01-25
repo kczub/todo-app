@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'todo/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
 
-<body>
-    <h1>TODO App</h1>
-    <form action="{% url 'todo:create' %}">
-        <button type="submit">Create todo</button>
-    </form>
-    <ul>
-        {% for todo in todos %}
-        <li><a href="{% url 'todo:detail' todo.id %}">{{ todo.title }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
+<h1>TODO App</h1>
+<form action="{% url 'todo:create' %}">
+    <button type="submit">Create todo</button>
+</form>
+<ul>
+    {% for todo in todos %}
+    <li><a href="{% url 'todo:detail' todo.id %}">{{ todo.title }}</a></li>
+    {% endfor %}
+</ul>
 
-</html>
+{% endblock content %}

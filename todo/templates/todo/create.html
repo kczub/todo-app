@@ -1,26 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'todo/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
 
-<body>
-    <form action="{% url 'todo:create' %}" method="post">
-        {% csrf_token %}
-        <div style="margin-top: 30px; margin: 30px;">
-            <input type="text" name="title" placeholder="Title">
-        </div>
-        <div style="margin-top: 20px; margin: 30px;">
-            <textarea name="content" value="Content" rows="5" placeholder="Content"></textarea>
-        </div>
-        <div style="margin-top: 10px; margin: 30px;">
-            <button type="submit">Create</button>
-        </div>
-    </form>
-</body>
+<form action="{% url 'todo:create' %}" method="post">
+    {% csrf_token %}
+    <div style="margin-top: 30px; margin: 30px;">
+        <input type="text" name="title" placeholder="Title">
+    </div>
+    <div style="margin-top: 20px; margin: 30px;">
+        <textarea name="content" value="Content" rows="5" placeholder="Content"></textarea>
+    </div>
+    <div style="margin-top: 10px; margin: 30px;">
+        <button type="submit">Create</button>
+    </div>
+</form>
 
-</html>
+{% endblock content %}
