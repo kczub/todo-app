@@ -4,6 +4,10 @@
 
 <h3>{{ todo.title }}</h3>
 <p>{{ todo.content }}</p>
+<br>
+<p>Created: {{ todo.timestamp }}</p>
+<p>Updated: {{ todo.updated }}</p>
+
 <form action="{% url 'todo:update' todo.id %}" method="GET">
     <button type="submit">Edit</button>
     <button type="submit" formaction="{% url 'todo:delete' todo.id %}">Delete</button>

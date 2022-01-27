@@ -6,16 +6,8 @@ from todo.models import Todo
 from todo.forms import TodoForm
 
 def index(request):
-    todos = Todo.objects.all()
+    todos = Todo.objects.order_by('-updated')
     return render(request, 'todo/index.html', {'todos': todos,})
-
-# def create(request):
-#     form = TodoForm(request.POST or None)
-#     context = {'form': form}
-#     if form.is_valid():
-#         todo_obj = form.save() # maybe just form.save()
-#         return HttpResponseRedirect(reverse('todo:index'))
-#     return render(request, 'todo/create.html', context=context)
 
 def create(request):
     form = TodoForm(request.POST or None)
