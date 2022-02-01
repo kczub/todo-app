@@ -7,7 +7,7 @@
     <button type="submit">Create todo</button>
 </form>
 <ul>
-    {% for todo in todos %}
+    {% for todo in todo_list %}
     <li><a href="{% url 'todo:detail' todo.id %}">{{ todo.title }}</a></li>
     {% endfor %}
 </ul>

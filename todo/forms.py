@@ -12,8 +12,8 @@ class TodoForm(forms.ModelForm):
         title = data.get('title')
         content = data.get('content')
         qs = Todo.objects.filter(title__icontains=title)
-        if qs.exists():
-            self.add_error('title', f"\"{title}\" already exists.") # field error - better for specific fields
+        # if qs.exists():
+        #     self.add_error('title', f"\"{title}\" already exists.") # field error - better for specific fields
         if 'dupa' in title.lower() or 'dupa' in content.lower():
             raise forms.ValidationError("\"Dupa\" is not allowed") # nonfield error - error for the entire form
         return data

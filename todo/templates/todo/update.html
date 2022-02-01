@@ -2,17 +2,12 @@
 
 {% block content %}
 
-<form action="{% url 'todo:update' todo.id %}" method="POST">
+<form action="{% url 'todo:update' todo.id %}" method="post">
     {% csrf_token %}
-    <div>
-        <input type="text" name="title" value="{{ todo.title }}">
-    </div>
-    <div>
-        <textarea name="content" rows="5">{{ todo.content }}</textarea>
-    </div>
-    <div>
-        <button type="submit">Update</button>
-    </div>
+    {{ form.as_p }}
+
+    <button type="submit">Update</button>
+
 </form>
 
 {% endblock content %}
