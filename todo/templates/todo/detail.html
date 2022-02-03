@@ -2,15 +2,43 @@
 
 {% block content %}
 
-<h3>{{ todo.title }}</h3>
+<div class="container">
+
+    <div class="row mt-3">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="card" style="width: 36rem;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ todo.title }}</h5>
+                    <p class="card-text">{{ todo.content }}</p>
+                    
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <a href="{% url 'todo:update' todo.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'todo:delete' todo.id %}" class="btn btn-danger">Delete</a>
+                </div>
+
+                
+                
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+<!-- <h3>{{ todo.title }}</h3>
 <p>{{ todo.content }}</p>
 <br>
 <p>Created: {{ todo.timestamp }}</p>
-<p>Updated: {{ todo.updated }}</p>
+<p>Updated: {{ todo.updated }}</p> -->
 
-<form action="{% url 'todo:update' todo.id %}" method="GET">
+<!-- <form action="{% url 'todo:update' todo.id %}" method="GET">
     <button type="submit">Edit</button>
     <button type="submit" formaction="{% url 'todo:delete' todo.id %}">Delete</button>
-</form>
+</form> -->
 
 {% endblock content %}
