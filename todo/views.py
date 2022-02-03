@@ -11,7 +11,7 @@ class IndexView(generic.ListView):
     context_object_name = 'todo_list'
 
     def get_queryset(self):
-        return Todo.objects.order_by('-updated')
+        return Todo.objects.order_by('-updated')[:3]
 
 
 class DetailView(generic.DetailView):
