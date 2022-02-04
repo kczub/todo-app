@@ -16,14 +16,14 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">to-do App</a>
-        </div>
         {% if request.user.is_authenticated %}
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'todo:profile' %}">to-do App</a>
+        </div>
         <a href="{% url 'accounts:logout' %}" class="btn btn-outline-dark me-auto">Log out</a>
         {% else %}
-        <div>
-
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'todo:index' %}">to-do App</a>
         </div>
         {% endif %}
     </nav>
@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row mt-3">
                 <div class="col">
-                    1
+                    
                 </div>
                 <div class="col">
                     {% block content %}
@@ -40,7 +40,7 @@
                     {% endblock content %}
                 </div>
                 <div class="col">
-                    3
+                    
                 </div>
             </div>
         </div>
