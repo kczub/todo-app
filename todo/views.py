@@ -1,8 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.views import generic, View
+from django.views import generic
 
 from todo.models import Todo
 from todo.forms import TodoForm
@@ -11,15 +10,18 @@ def index(request):
     return render(request, 'todo/index.html', {})
 
 
-class ProfileView(LoginRequiredMixin, generic.ListView):
-    login_url = '/login/'
-    template_name = 'todo/profile.html'
-    context_object_name = 'todo_list'
+@login_required
+def profile(request):
+    obj_list = Todo.objects.filter(future_date__isnull=True).order_by('-updated')
+    scheduled = Todo.objects.filter(future_date__isnull=False).order_by('-updated')
+    context = {
+        'todo_list': obj_list,
+        'scheduled': scheduled
+    }
+    print(context)
+    return render(request, 'todo/profile.html', context)
 
-    def get_queryset(self):
-        return Todo.objects.order_by('-updated')
 
-    
 class DetailView(generic.DetailView):
     model = Todo
     template_name = 'todo/detail.html'

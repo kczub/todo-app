@@ -1,4 +1,4 @@
-{% extends 'todo/detail.html' %}
+{% extends 'todo/base.html' %}
 
 {% block content %}
 
@@ -20,18 +20,5 @@
         </div>
     </div>
 </div>
-    {% endblock content %}
 
-
-
-    <!-- <div class="card" style="width: 36rem;"> -->
-        <!-- <img src="..." class="card-img-top" alt="..."> -->
-        <!-- <div class="card-body">
-            <h5 class="card-title">{{ todo.title }}</h5>
-            <p class="card-text">{{ todo.content }}</p>
-        </div>
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="{% url 'todo:update' todo.id %}" class="btn btn-primary">Edit</a>
-            <a href="{% url 'todo:delete' todo.id %}" class="btn btn-danger">Delete</a>
-        </div>
-    </div> -->
+{% endblock content %}

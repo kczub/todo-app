@@ -11,7 +11,8 @@ class TodoForm(forms.ModelForm):
         data = self.cleaned_data
         title = data.get('title')
         content = data.get('content')
-        qs = Todo.objects.filter(title__icontains=title)
+
+        # qs = Todo.objects.filter(title__icontains=title)
         # if qs.exists():
         #     self.add_error('title', f"\"{title}\" already exists.") # field error - better for specific fields
         if 'dupa' in title.lower() or 'dupa' in content.lower():
