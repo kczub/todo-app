@@ -1,12 +1,13 @@
 from django.urls import path
 
-from . import views
+from todo.views import index, ProfileView, DetailView, create, update, delete
 
 app_name = 'todo'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path('create/', views.create, name='create'),
-    path('<int:todo_id>/update/', views.update, name='update'),
-    path('<int:todo_id>/delete/', views.delete, name='delete'),
+    path('', index, name='index'),
+    path('<int:pk>/', DetailView.as_view(), name='detail'),
+    path('create/', create, name='create'),
+    path('<int:todo_id>/update/', update, name='update'),
+    path('<int:todo_id>/delete/', delete, name='delete'),
+    path('profile/', ProfileView.as_view(), name='profile')
 ]

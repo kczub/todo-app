@@ -1,0 +1,67 @@
+{% extends 'todo/base.html' %}
+
+{% block profile %}
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="card bg-transparent text-dark" style="width: 18rem;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <!-- <div class="card-body"> -->
+                    <a href="{% url 'todo:create' %}" class="btn btn-outline-dark">Create</a>
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    {% for todo in todo_list %}
+    <div class="row mt-3">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="card bg-transparent text-dark" style="width: 18rem;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ todo.title }}</h5>
+                    <p class="card-text d-inline-block text-truncate" style="max-width: 150px;">{{ todo.content }}</p>
+                    <br>
+                    <a href="{% url 'todo:detail' todo.id %}" class="btn btn-outline-dark">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col">
+
+        </div>
+        <div class="col mb-3">
+            <div class="card bg-transparent text-dark" style="width: 18rem;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <!-- <div class="card-body"> -->
+                    <a href="#" class="btn btn-outline-dark">View all</a>
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+{% endblock profile %}
