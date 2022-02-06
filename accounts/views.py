@@ -1,15 +1,16 @@
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
+
+from accounts.forms import RegistrationForm
 
 
 def register_view(request):
-    form = UserCreationForm(request.POST or None)
+    form = RegistrationForm(request.POST or None)
     if form.is_valid():
         user_obj = form.save()
         return redirect(reverse('accounts:login'))
-    print(form)
     
     return render(request, 'accounts/register.html', {'form': form})
 

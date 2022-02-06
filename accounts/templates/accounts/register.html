@@ -6,8 +6,10 @@
 
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-   
+    {{ form.username }}
+    {{ form.password }}
+    {{ form.confirm_password }}
+    <!-- {{ form.as_p }} -->
     <button class="btn btn-outline-dark mb-3" type="submit">Register</button>
 </form>
 
