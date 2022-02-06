@@ -18,7 +18,6 @@ def profile(request):
         'todo_list': obj_list,
         'scheduled': scheduled
     }
-    print(context)
     return render(request, 'todo/profile.html', context)
 
 

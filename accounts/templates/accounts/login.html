@@ -4,13 +4,15 @@
 
 {% if not request.user.is_authenticated %}
 
-<form method="POST">
+<form action="{% url 'accounts:login' %}" method="POST">
     {% csrf_token %}
+    <!-- {{ form.as_p }} -->
 
-    {% if error %}
+    <!-- {{ form.username }}
+        {{ form.password }} -->
+    <!-- {% if error %}
     <p>{{ error }}</p>
-    {% endif %}
-
+    {% endif %} -->
     <!-- <label for="username" class="form-label">Username</label> -->
     <input class="form-control mb-3" type="text" name="username" placeholder="username">
     <!-- <label for="password" class="form-label">Username</label> -->
