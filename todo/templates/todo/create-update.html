@@ -1,0 +1,15 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if object is None %}
+    <button class="btn btn-outline-dark" type="submit">Create</button>
+    {% else %}
+    <button class="btn btn-outline-dark" type="submit">Update</button>
+    {% endif %}
+</form>
+
+{% endblock content %}

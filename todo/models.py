@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.conf import settings
 from django.utils.text import slugify
 from django.db import models
@@ -18,6 +19,9 @@ class Todo(models.Model):
         if self.slug is None:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('todo:detail', kwargs={'pk': self.pk})
 
     def __str__(self) -> str:
         return self.title

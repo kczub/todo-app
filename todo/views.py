@@ -1,11 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
-from django.views import generic
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 
 from todo.models import Todo
 from todo.forms import TodoForm
+
 
 User = settings.AUTH_USER_MODEL
 
@@ -13,71 +14,51 @@ def index(request):
     return render(request, 'todo/index.html', {})
 
 
-@login_required
-def profile(request):
-    username = request.user.get_username()
-    obj_list = Todo.objects.filter(user__username=username)
-    no_date = obj_list.filter(future_date__isnull=True).order_by('-updated')
-    scheduled = obj_list.filter(future_date__isnull=False).order_by('-updated')
-    context = {
-        'user': username,
-        'todo_list': no_date,
-        'scheduled': scheduled
-    }
-    return render(request, 'todo/profile.html', context)
+class ProfileView(LoginRequiredMixin, ListView):
+    template_name = 'todo/profile.html'
+
+    def get_queryset(self):
+        user = self.request.user.get_username()
+        queryset = Todo.objects.filter(user__username=user)
+        data = {
+        'no_date': queryset.filter(future_date__isnull=True).order_by('-updated'),
+        'scheduled': queryset.filter(future_date__isnull=False).order_by('-updated')
+        }
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context.get('object_list')
 
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, DetailView):
     model = Todo
     template_name = 'todo/detail.html'
 
 
-@login_required
-def create(request):
-    form = TodoForm(request.POST or None)
-    if form.is_valid():
-        obj = form.save(commit=False)
-        obj.user = request.user
-        obj.save()
-        return redirect(reverse('todo:profile'))
-    return render(request, 'todo/create.html', context={'form': form})
+class TodoCreateView(LoginRequiredMixin, CreateView):
+    model = Todo
+    form_class = TodoForm
+    template_name = 'todo/create-update.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(obj=self.object)
+
+    def form_valid(self, form=form_class):
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = self.request.user
+            obj.save()
+            return redirect(reverse('todo:profile'))
 
 
-@login_required
-def update(request, todo_id):
-    todo = get_object_or_404(Todo, pk=todo_id)
-    form = TodoForm(request.POST or None, instance=todo)
-    context = {
-        'todo': todo,
-        'form': form
-    }
-    if form.is_valid():
-        form.save()
-        return redirect(reverse('todo:profile'))
-    return render(request, 'todo/update.html', context)
+class TodoUpdateView(LoginRequiredMixin, UpdateView):
+    model = Todo
+    form_class = TodoForm
+    template_name = 'todo/create-update.html'
+    
 
-
-@login_required
-def delete(request, todo_id):
-    todo = Todo.objects.get(pk=todo_id)
-    if request.method == 'POST':
-        todo.delete()
-        return redirect(reverse('todo:profile'))
-    return render(request, 'todo/delete.html', {'todo': todo})
-
-
-# class CreateView(View):
-#     form = TodoForm
-#     template_name = 'todo/create.html'
-
-#     def get(self, request, *args, **kwargs):
-#         form = self.form
-#         return render(request, self.template_name, {'form': form})
-
-#     def post(self, request, *args, **kwargs):
-#         form = self.form(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('todo:index'))
-        
-#         return render(request, self.template_name, {'form': form})
+class TodoDeleteView(LoginRequiredMixin, DeleteView): 
+    model = Todo
+    template_name = 'todo/delete.html'
+    success_url = reverse_lazy('todo:profile')
