@@ -4,6 +4,17 @@
 
 <form action="{% url 'todo:create' %}" method="post">
     {% csrf_token %}
+<!-- 
+    <select name="user" id="id_user">
+        <option value="" selected>---------</option>
+
+        <option value="1">admin</option>
+
+        <option value="2">ula</option>
+
+        <option value="3">zabity</option>
+
+    </select> -->
     <div class="mb-3">
         <label for="id_title" class="form-label">Title</label>
         <input type="text" class="form-control" name="title" maxlength="30" required id="id_title">
@@ -11,6 +22,9 @@
     <div class="mb-3">
         <label for="id_content" class="form-label">Content</label>
         <textarea name="content" class="form-control" cols="40" rows="10" required id="id_content"></textarea>
+    </div>
+    <div class="mb-3">
+        <input type="date" class="form-control" name="future_date">
     </div>
     <button class="btn btn-outline-dark" type="submit">Create</button>
 </form>

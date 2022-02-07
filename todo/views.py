@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -6,16 +7,21 @@ from django.views import generic
 from todo.models import Todo
 from todo.forms import TodoForm
 
+User = settings.AUTH_USER_MODEL
+
 def index(request):
     return render(request, 'todo/index.html', {})
 
 
 @login_required
 def profile(request):
-    obj_list = Todo.objects.filter(future_date__isnull=True).order_by('-updated')
-    scheduled = Todo.objects.filter(future_date__isnull=False).order_by('-updated')
+    username = request.user.get_username()
+    obj_list = Todo.objects.filter(user__username=username)
+    no_date = obj_list.filter(future_date__isnull=True).order_by('-updated')
+    scheduled = obj_list.filter(future_date__isnull=False).order_by('-updated')
     context = {
-        'todo_list': obj_list,
+        'user': username,
+        'todo_list': no_date,
         'scheduled': scheduled
     }
     return render(request, 'todo/profile.html', context)
@@ -30,7 +36,9 @@ class DetailView(generic.DetailView):
 def create(request):
     form = TodoForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        obj = form.save(commit=False)
+        obj.user = request.user
+        obj.save()
         return redirect(reverse('todo:profile'))
     return render(request, 'todo/create.html', context={'form': form})
 

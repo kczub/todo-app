@@ -4,10 +4,10 @@ from .models import Todo
 
 class TodoAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['title', 'content', 'future_date']}),
+        (None, {'fields': ['user', 'title', 'slug', 'content', 'future_date']}),
     ]
 
-    list_display = ['title', 'content', 'timestamp', 'future_date']
+    list_display = ['user', 'title', 'content', 'timestamp', 'future_date']
     list_filter = ['timestamp']
 
 admin.site.register(Todo, TodoAdmin)

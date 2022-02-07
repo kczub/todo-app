@@ -2,6 +2,7 @@ from django.urls import path
 
 from todo.views import index, profile, DetailView, create, update, delete
 
+
 app_name = 'todo'
 urlpatterns = [
     path('', index, name='index'),
