@@ -1,20 +1,18 @@
 {% extends 'todo/base.html' %}
-
 {% block content %}
 
-    <div class="card" style="width: 36rem;">
-        <!-- <img src="..." class="card-img-top" alt="..."> -->
-        <div class="card-body">
-            <h5 class="card-title">{{ todo.title }}</h5>
-            <p class="card-text">{{ todo.content }}</p>
-            {% if todo.future_date %}
-            <p class="card-text">Scheduled for: {{ todo.future_date }}</p>
-            {% endif %}
-        </div>
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="{% url 'todo:update' todo.id %}" class="btn btn-outline-dark">Edit</a>
-            <a href="{% url 'todo:delete' todo.id %}" class="btn btn-outline-dark">Delete</a>
-        </div>
+<div class="card" style="width: 36rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{ todo.title }}</h5>
+        <p class="card-text">{{ todo.content }}</p>
+        {% if todo.future_date %}
+        <p class="card-text">Scheduled for: {{ todo.future_date }}</p>
+        {% endif %}
     </div>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <a href="{% url 'todo:update' todo.id %}" class="btn btn-outline-dark">Edit</a>
+        <a href="{% url 'todo:delete' todo.id %}" class="btn btn-outline-dark">Delete</a>
+    </div>
+</div>
 
 {% endblock content %}

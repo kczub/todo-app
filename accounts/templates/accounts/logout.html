@@ -1,11 +1,8 @@
 {% extends 'todo/base.html' %}
-
 {% block content %}
 
 {% if request.user.is_authenticated %}
-
 <div class="card bg-transparent text-dark" style="width: 18rem;">
-    <!-- <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
         <form method="POST">
             {% csrf_token %}
@@ -16,7 +13,6 @@
         </form>
     </div>
 </div>
-
 {% else %}
 <p>You're not logged in. </p>
 {% endif %}
