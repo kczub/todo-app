@@ -6,11 +6,13 @@
         <div class="card-title">
             <h5>Do you want to mark this todo as completed?</h5>
             <div class="btn-group mt-3" role="group" aria-label="Basic mixed styles example">
-                <form action="." method="POST">
+                <form action="{% url 'todo:completed' todo.pk %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-dark">Yes</button>
                 </form>
-    
+                <form action="{% url 'todo:detail' todo.pk %}" method="GET">
+                    <button type="submit" class="btn btn-outline-dark">No</button>
+                </form>
             </div>
         </div>
     </div>

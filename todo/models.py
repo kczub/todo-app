@@ -9,17 +9,11 @@ User = settings.AUTH_USER_MODEL
 class Todo(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=30)
-    slug = models.SlugField(blank=True, null=True)
     content = models.TextField()
     future_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     completed = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        if self.slug is None:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('todo:detail', kwargs={'pk': self.pk})

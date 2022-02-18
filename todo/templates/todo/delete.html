@@ -6,11 +6,11 @@
         <div class="card-title">
             <h5>Are you sure?</h5>
             <div class="btn-group mt-3" role="group" aria-label="Basic mixed styles example">
-                <form action="{% url 'todo:delete' todo.id %}" method="POST">
+                <form action="{% url 'todo:delete' todo.pk %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-dark">Yes</button>
                 </form>
-                <form action="{% url 'todo:detail' todo.id %}" method="GET">
+                <form action="{% url 'todo:detail' todo.pk %}" method="GET">
                     <button type="submit" class="btn btn-outline-dark">No</button>
                 </form>
             </div>
