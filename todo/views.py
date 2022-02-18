@@ -1,13 +1,9 @@
 from django.contrib.auth.decorators import login_required 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from todo.models import Todo
 from todo.forms import TodoForm
-
-User = settings.AUTH_USER_MODEL
 
 
 def index_view(request):
@@ -20,7 +16,7 @@ def profile_view(request):
     qs = Todo.objects.filter(user__username=user)
     context = {
         'active': qs.filter(completed=False).order_by('-updated'),
-        'completed': qs.filter(completed=True)[:3],
+        'completed': qs.filter(completed=True).order_by('-timestamp')[:3],
     }
     return render(request, 'todo/profile.html', context)
 
@@ -80,7 +76,7 @@ def delete_view(request, pk):
 
 @login_required
 def completed_view(request, pk):
-    todo_object = get_object_or_404(Todo, pk=pk)
+    todo_object = get_object_or_404(Todo, pk=pk, user=request.user)
     context = {
         'todo': todo_object
     }
