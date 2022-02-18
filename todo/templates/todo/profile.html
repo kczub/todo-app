@@ -1,64 +1,27 @@
 {% extends 'todo/base.html' %}
-{% block profile %}
-
-<div class="container">
-    <div class="row mt-3">
-        <div class="col">
-        </div>
-        <div class="col">
-            <div class="card bg-transparent text-dark" style="width: 18rem;">
-                <a href="{% url 'todo:create' %}" class="btn btn-outline-dark">Create</a>
-            </div>
-        </div>
-        <div class="col">
-        </div>
-    </div>
+{% block content %}
+  
+<div class="card-white">
+    <a href="{% url 'todo:create' %}">Create</a>
+</div>
+<div class="card-white">
+    <a href="{% url 'todo:completed' %}">See completed</a>
 </div>
 <br>
-<div class="container">
-    <div class="row mt-3">
-        <div class="col">
-            <h3>user</h3>
-            <h4>{{ user }}</h4>
-        </div>
-        <div class="col">
-            <h3>to-do</h3>
-            {% for todo in active %}
-            <div class="card bg-transparent text-dark mt-3" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ todo.title }}</h5>
-                    <p class="card-text d-inline-block text-truncate" style="max-width: 150px;">{{ todo.content }}</p>
-                    {% if todo.future_date %}
-                    <p class="card-text">Scheduled for: {{ todo.future_date }}</p>
-                    {% endif %}
-                    <br>
-                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <a href="{{ todo.get_absolute_url }}" class="btn btn-outline-dark">Details</a>
-                        <a href="{% url 'todo:completed' todo.id %}" class="btn btn-outline-dark">Completed</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="col">
-            <h3>completed</h3>
-            {% for todo in completed %}
-            <div class="card bg-transparent text-dark mt-3" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ todo.title }}</h5>
-                    <p class="card-text d-inline-block text-truncate" style="max-width: 150px;">{{ todo.content }}</p>
-                    {% if todo.future_date %}
-                    <p class="card-text">Scheduled for: {{ todo.future_date }}</p>
-                    {% endif %}
-                    <br>
-                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <a href="{{ todo.get_absolute_url }}" class="btn btn-outline-dark">Details</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+<br>
+<br>
+<br>
+<br>
+{% for todo in active %}
+<div class="card">
+<h3>{{ todo.title }}</h3>
+<p>{{ todo.content }}</p>
+{% if todo.future_date %}
+<p>Scheduled for: {{ todo.future_date }}</p>
+{% endif %}
+<button class="btn"><a href="{{ todo.get_absolute_url }}">Details</a></button>
+<button class="btn"><a href="{% url 'todo:confirm_completed' todo.id %}">Completed</a></button>
 </div>
+{% endfor %}
 
-{% endblock profile %}
+{% endblock content %}

@@ -9,10 +9,10 @@
         <p class="card-text">Scheduled for: {{ todo.future_date }}</p>
         {% endif %}
     </div>
-    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <a href="{% url 'todo:update' todo.id %}" class="btn btn-outline-dark">Edit</a>
-        <a href="{% url 'todo:delete' todo.id %}" class="btn btn-outline-dark">Delete</a>
-        <a href="{% url 'todo:completed' todo.id %}" class="btn btn-outline-dark">Completed</a>
+    <div>
+        <button class="btn"><a href="{% url 'todo:update' todo.id %}">Edit</a></button>
+        <button class="btn"><a href="{% url 'todo:delete' todo.id %}">Delete</a></button>
+        <button class="btn"><a href="{% url 'todo:confirm_completed' todo.id %}">Completed</a></button>
     </div>
 </div>
 

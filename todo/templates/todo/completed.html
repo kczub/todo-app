@@ -1,21 +1,13 @@
 {% extends 'todo/base.html' %}
 {% block content %}
 
-<div class="card bg-transparent text-dark" style="width: 18rem;">
-    <div class="card-body">
-        <div class="card-title">
-            <h5>Do you want to mark this todo as completed?</h5>
-            <div class="btn-group mt-3" role="group" aria-label="Basic mixed styles example">
-                <form action="{% url 'todo:completed' todo.pk %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-dark">Yes</button>
-                </form>
-                <form action="{% url 'todo:detail' todo.pk %}" method="GET">
-                    <button type="submit" class="btn btn-outline-dark">No</button>
-                </form>
-            </div>
-        </div>
-    </div>
+{% for todo in completed %}
+<div class="card">
+    <h3>{{ todo.title }}</h3>
+    <p>{{ todo.content }}</p>
+    <button class="btn"><a href="{{ todo.get_absolute_url }}">Details</a></button>
+    <button class="btn"><a href="{% url 'todo:delete' todo.id %}">Delete</a></button>
 </div>
+{% endfor %}
 
 {% endblock content %}

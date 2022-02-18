@@ -1,11 +1,11 @@
 {% extends 'todo/base.html' %}
 {% block content %}
 
-<div class="card bg-transparent text-dark mb-5" style="width: 18rem;">
-    <a href="{% url 'accounts:login' %}" class="btn btn-outline-dark">Login</a>
+<div class="card-white">
+    <a href="{% url 'accounts:login' %}">Login</a>
 </div>
-<div class="card bg-transparent text-dark mt-5" style="width: 18rem;">
-    <a href="{% url 'accounts:register' %}" class="btn btn-outline-dark">Register</a>
+<div class="card-white">
+    <a href="{% url 'accounts:register' %}">Register</a>
 </div>
 
 {% endblock content %}
