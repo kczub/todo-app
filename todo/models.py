@@ -14,6 +14,7 @@ class Todo(models.Model):
     future_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    completed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.slug is None:

@@ -12,6 +12,7 @@
     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <a href="{% url 'todo:update' todo.id %}" class="btn btn-outline-dark">Edit</a>
         <a href="{% url 'todo:delete' todo.id %}" class="btn btn-outline-dark">Delete</a>
+        <a href="{% url 'todo:completed' todo.id %}" class="btn btn-outline-dark">Completed</a>
     </div>
 </div>
 

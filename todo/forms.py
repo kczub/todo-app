@@ -5,7 +5,7 @@ from todo.models import Todo
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        exclude = ['user', 'slug', 'timestamp', 'updated']
+        exclude = ['user', 'slug', 'timestamp', 'updated', 'completed']
 
         widgets = {
             'title': forms.TextInput(attrs={

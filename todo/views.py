@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
 from todo.models import Todo
@@ -21,8 +21,10 @@ class ProfileView(LoginRequiredMixin, ListView):
         user = self.request.user.get_username()
         queryset = Todo.objects.filter(user__username=user)
         data = {
-        'no_date': queryset.filter(future_date__isnull=True).order_by('-updated'),
-        'scheduled': queryset.filter(future_date__isnull=False).order_by('-updated')
+            'todo': queryset.filter(completed=False).order_by('-updated'),
+            'completed': queryset.filter(completed=True)[:3],
+            'no_date': queryset.filter(future_date__isnull=True).order_by('-updated'),
+            'scheduled': queryset.filter(future_date__isnull=False).order_by('-updated'),
         }
         return data
 
@@ -62,3 +64,12 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
     template_name = 'todo/delete.html'
     success_url = reverse_lazy('todo:profile')
+
+def todo_completed_view(request, pk):
+    todo_object = get_object_or_404(Todo, pk=pk)
+    context = {'object': todo_object}
+    if request.method == 'POST':
+        todo_object.completed = True
+        todo_object.save()
+        return redirect('todo:profile')
+    return render(request, 'todo/completed.html', context)
