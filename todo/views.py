@@ -41,7 +41,8 @@ def create_view(request):
         obj.user = request.user
         obj.save()
         return redirect(reverse('todo:profile'))
-
+    else:
+        context['errors'] = form.errors
     return render(request, 'todo/create_update.html', context)
 
 

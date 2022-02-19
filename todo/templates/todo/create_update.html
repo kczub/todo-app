@@ -3,6 +3,13 @@
 
 <form method="POST">
     {% csrf_token %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     {{ form.as_p }}
     {% if todo is None %}
     <button class="btn btn-outline-dark" type="submit">Create</button>

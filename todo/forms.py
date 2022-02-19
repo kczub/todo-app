@@ -1,31 +1,36 @@
+from django.utils import timezone
 from django import forms
 
 from todo.models import Todo
 
 class TodoForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'max. 30 characters'
+    }))
+
+    content = forms.CharField(widget=forms.Textarea(attrs={
+            'rows': 10,
+            'cols': 40
+    }))
+
+    future_date = forms.DateField(widget=forms.DateInput(attrs={
+            'type': 'date'
+    }))
+
     class Meta:
         model = Todo
-        exclude = ['user', 'slug', 'timestamp', 'updated', 'completed']
+        exclude = ['user', 'timestamp', 'updated', 'completed']
 
-        widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
-            'content': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 10,
-                'cols': 40
-            }),
-            'future_date': forms.DateInput(attrs={
-                'type': 'date',
-            })
-        }
+    def clean(self):
+        data = self.cleaned_data
+        future_date = data.get('future_date')
+        if future_date < timezone.now().date():
+            self.add_error('future_date', "Date cannot be in the past.")
+        return data
+    
 
-    # def clean(self):
-    #     data = self.cleaned_data
-    #     title = data.get('title')
     #     content = data.get('content')
-    #     # future_date = data.get('future_date')
+    #     # 
 
     #     # qs = Todo.objects.filter(title__icontains=title)
     #     # if qs.exists():
