@@ -1,10 +1,24 @@
 {% extends 'todo/base.html' %}
+
+{% block control %}
+<div class="card-white">
+    <a href="{% url 'todo:create' %}">Create</a>
+</div>
+<div class="card-white">
+    <a href="{% url 'todo:profile' %}">Active</a>
+</div>
+{% endblock control %}
+
 {% block content %}
 
 {% for todo in completed %}
 <div class="card">
+    <p>{{ todo.timestamp }}</p>
     <h3>{{ todo.title }}</h3>
-    <p>{{ todo.content }}</p>
+    <h5>{{ todo.content }}</h5>
+    {% if todo.future_date %}
+    <p>Scheduled for: {{ todo.future_date }}</p>
+    {% endif %}
     <button class="btn"><a href="{{ todo.get_absolute_url }}">Details</a></button>
     <button class="btn"><a href="{% url 'todo:delete' todo.id %}">Delete</a></button>
 </div>

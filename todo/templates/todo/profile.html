@@ -1,26 +1,16 @@
 {% extends 'todo/base.html' %}
 {% block content %}
-  
-<div class="card-white">
-    <a href="{% url 'todo:create' %}">Create</a>
-</div>
-<div class="card-white">
-    <a href="{% url 'todo:completed' %}">See completed</a>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 {% for todo in active %}
 <div class="card">
-<h3>{{ todo.title }}</h3>
-<p>{{ todo.content }}</p>
-{% if todo.future_date %}
-<p>Scheduled for: {{ todo.future_date }}</p>
-{% endif %}
-<button class="btn"><a href="{{ todo.get_absolute_url }}">Details</a></button>
-<button class="btn"><a href="{% url 'todo:confirm_completed' todo.id %}">Completed</a></button>
+    <p>{{ todo.timestamp }}</p>
+    <h3>{{ todo.title }}</h3>
+    <h5>{{ todo.content }}</h5>
+    {% if todo.future_date %}
+    <p>Scheduled for: {{ todo.future_date }}</p>
+    {% endif %}
+    <button class="btn"><a href="{{ todo.get_absolute_url }}">Details</a></button>
+    <button class="btn"><a href="{% url 'todo:confirm_completed' todo.id %}">Completed</a></button>
 </div>
 {% endfor %}
 

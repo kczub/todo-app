@@ -11,15 +11,39 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <ul>
-            {% if request.user.is_authenticated %}
-            <li class="navbar-left logo"><a href="{% url 'todo:profile' %}">to-do App</a></li>
-            <li class="navbar-right"><a href="{% url 'accounts:logout' %}">Log out</a></li>
-            {% else %}
-            <li class="navbar-left logo"><a href="{% url 'todo:index' %}">to-do App</a></li>
-            {% endif %}
-        </ul>
+    <div class="top">
+        <div class="navbar">
+            <ul>
+                {% if request.user.is_authenticated %}
+                <li class="navbar-left logo"><a href="{% url 'todo:profile' %}">to-do App</a></li>
+                <li class="navbar-right"><a href="{% url 'accounts:logout' %}">Log out</a></li>
+                {% else %}
+                <li class="navbar-left logo"><a href="{% url 'todo:index' %}">to-do App</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+
+        {% block control %}
+        {% if request.user.is_authenticated %}
+        <div class="card-white">
+            <a href="{% url 'todo:create' %}">Create</a>
+        </div>
+        <div class="card-white">
+            <a href="{% url 'todo:completed' %}">Completed</a>
+        </div>
+        {% else %}
+        <div class="card-white">
+            <a href="{% url 'accounts:login' %}">Login</a>
+        </div>
+        <div class="card-white">
+            <a href="{% url 'accounts:register' %}">Register</a>
+        </div>
+        {% endif %}
+        {% endblock control %}
+
+
+
     </div>
     <div class="container">
         {% block content %}
