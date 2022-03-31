@@ -3,6 +3,24 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.form-box {
+    width: 50%;
+    border: solid 3px;
+    margin: auto;
+}
+
+.form-title {
+    width: 50%;
+    padding: 10px;
+    margin: 5px;
+}
+
+.form-content {
+    width: 50%;
+    padding: 10px;
+    margin: 5px;
+}
+
 .top {
     height: 300px;
     background: white url("background.jpg") no-repeat;

@@ -4,22 +4,29 @@ from django import forms
 from todo.models import Todo
 
 class TodoForm(forms.ModelForm):
-    title = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'max. 30 characters'
-    }))
-
-    content = forms.CharField(widget=forms.Textarea(attrs={
-            'rows': 10,
-            'cols': 40
-    }))
-
-    future_date = forms.DateField(widget=forms.DateInput(attrs={
-            'type': 'date'
-    }))
-
     class Meta:
         model = Todo
         exclude = ['user', 'timestamp', 'updated', 'completed']
+        widgets = {
+            'future_date': forms.DateInput(attrs={
+                'type': 'date'
+            })
+        }
+        # labels = {
+        #     'title': ''
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({
+            'placeholder': 'max. 30 characters',
+            'class': 'form-title'
+        })
+        self.fields['content'].widget.attrs.update({
+            'rows': 10,
+            'cols': 40,
+            'class': 'form-content'
+        })
 
     def clean(self):
         data = self.cleaned_data
@@ -30,8 +37,6 @@ class TodoForm(forms.ModelForm):
     
 
     #     content = data.get('content')
-    #     # 
-
     #     # qs = Todo.objects.filter(title__icontains=title)
     #     # if qs.exists():
     #     #     self.add_error('title', f"\"{title}\" already exists.") # field error - better for specific fields
